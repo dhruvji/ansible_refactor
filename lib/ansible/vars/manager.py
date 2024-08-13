@@ -29,7 +29,7 @@ from jinja2.exceptions import UndefinedError
 from ansible import constants as C
 from ansible.errors import AnsibleError, AnsibleParserError, AnsibleUndefinedVariable, AnsibleFileNotFound, AnsibleAssertionError
 from ansible.inventory.host import Host
-from ansible.inventory.helpers import sort_groups, get_group_vars
+from ansible.inventory.helpers import group_sort, get_group_vars
 from ansible.module_utils.common.text.converters import to_text
 from ansible.module_utils.six import text_type
 from ansible.vars.fact_cache import FactCache
@@ -225,7 +225,7 @@ class VariableManager:
         if host:
             # THE 'all' group and the rest of groups for a host, used below
             all_group = self._inventory.groups.get('all')
-            host_groups = sort_groups([g for g in host.get_groups() if g.name not in ['all']])
+            host_groups = group_sort([g for g in host.get_groups() if g.name not in ['all']])
 
             def _get_plugin_vars(plugin, path, entities):
                 data = {}

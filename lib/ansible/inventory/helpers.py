@@ -21,7 +21,7 @@ from __future__ import annotations
 from ansible.utils.vars import combine_vars
 
 
-def sort_groups(groups):
+def group_sort(groups):
     return sorted(groups, key=lambda g: (g.depth, g.priority, g.name))
 
 
@@ -33,7 +33,7 @@ def get_group_vars(groups):
     :rtype: dict
     """
     results = {}
-    for group in sort_groups(groups):
+    for group in group_sort(groups):
         results = combine_vars(results, group.get_vars())
 
     return results
