@@ -119,7 +119,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable):
 
     def host_groupvars(self, host, loader, sources):
         ''' requires host object '''
-        gvars = get_group_vars(host.get_groups())
+        gvars = get_group_vars(host.get_groups(), log=False)
 
         if self.get_option('use_vars_plugins'):
             gvars = combine_vars(gvars, get_vars_from_inventory_sources(loader, sources, host.get_groups(), 'all'))

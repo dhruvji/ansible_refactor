@@ -19,21 +19,30 @@
 from __future__ import annotations
 
 from ansible.utils.vars import combine_vars
+import logging
 
 
 def sort_groups(groups):
     return sorted(groups, key=lambda g: (g.depth, g.priority, g.name))
 
 
-def get_group_vars(groups):
+def get_group_vars(groups, log=False):
     """
     Combine all the group vars from a list of inventory groups.
 
     :param groups: list of ansible.inventory.group.Group objects
+    :param log: boolean, if True, log the combination process
     :rtype: dict
     """
     results = {}
+    logger = logging.getLogger(__name__)
+    
     for group in sort_groups(groups):
+        if log:
+            logger.info(f"Combining vars from group: {group.name}")
         results = combine_vars(results, group.get_vars())
 
+    if log:
+        logger.info(f"Final combined vars: {results}")
+    
     return results

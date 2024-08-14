@@ -269,7 +269,7 @@ class VariableManager:
 
             def groups_inventory():
                 ''' gets group vars from inventory '''
-                return get_group_vars(host_groups)
+                return get_group_vars(host_groups, log=False)
 
             def groups_plugins_inventory():
                 ''' gets plugin sources from inventory for groups '''
