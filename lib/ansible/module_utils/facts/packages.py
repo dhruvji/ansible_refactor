@@ -8,7 +8,7 @@ import ansible.module_utils.compat.typing as t
 from abc import ABCMeta, abstractmethod
 
 from ansible.module_utils.six import with_metaclass
-from ansible.module_utils.basic import missing_required_lib
+from ansible.module_utils.utils import missing_required_lib
 from ansible.module_utils.common.process import get_bin_path
 from ansible.module_utils.common.respawn import has_respawned, probe_interpreters_for_module, respawn_module
 from ansible.module_utils.common._utils import get_all_subclasses

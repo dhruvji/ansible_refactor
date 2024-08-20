@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from ansible.module_utils import basic
+from ansible.module_utils import utils
 from ansible.module_utils.basic import AnsibleModule
 
-heuristic_log_sanitize = basic.heuristic_log_sanitize
+heuristic_log_sanitize = utils.heuristic_log_sanitize
 
 
 def heuristic_log_sanitize_spy(*args, **kwargs):
@@ -13,7 +13,7 @@ def heuristic_log_sanitize_spy(*args, **kwargs):
     return heuristic_log_sanitize_spy.return_value
 
 
-basic.heuristic_log_sanitize = heuristic_log_sanitize_spy
+utils.heuristic_log_sanitize = heuristic_log_sanitize_spy
 
 
 def main():

@@ -24,7 +24,7 @@ from functools import wraps
 from ansible.errors import AnsibleError
 from ansible.plugins import AnsiblePlugin
 from ansible.module_utils.common.text.converters import to_native
-from ansible.module_utils.basic import missing_required_lib
+from ansible.module_utils.utils import missing_required_lib
 
 try:
     from ncclient.operations import RPCError

@@ -19,7 +19,7 @@
 from __future__ import annotations
 
 import unittest
-from ansible.module_utils.basic import heuristic_log_sanitize
+from ansible.module_utils.utils import heuristic_log_sanitize
 
 
 class TestHeuristicLogSanitize(unittest.TestCase):

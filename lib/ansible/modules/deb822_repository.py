@@ -233,7 +233,7 @@ import textwrap
 import traceback
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.basic import missing_required_lib
+from ansible.module_utils.utils import missing_required_lib
 from ansible.module_utils.common.collections import is_sequence
 from ansible.module_utils.common.file import S_IRWXU_RXG_RXO, S_IRWU_RG_RO
 from ansible.module_utils.common.text.converters import to_bytes

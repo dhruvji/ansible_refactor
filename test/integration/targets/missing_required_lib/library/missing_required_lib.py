@@ -4,7 +4,8 @@
 
 from __future__ import annotations
 
-from ansible.module_utils.basic import AnsibleModule, missing_required_lib
+from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.utils import missing_required_lib
 
 try:
     import ansible_missing_lib  # pylint: disable=unused-import
