@@ -19,7 +19,7 @@ from contextlib import contextmanager
 from ansible import constants as C
 from ansible.cli.arguments import option_helpers as opt_help
 from ansible.module_utils.common.text.converters import to_bytes, to_text
-from ansible.module_utils.connection import Connection, ConnectionError, send_data, recv_data
+from ansible.module_utils.connection import Connection, ConnectionError, ConnectionUtils
 from ansible.module_utils.service import fork_process
 from ansible.parsing.ajson import AnsibleJSONEncoder, AnsibleJSONDecoder
 from ansible.playbook.play_context import PlayContext
@@ -126,7 +126,7 @@ class ConnectionProcess(object):
                 signal.alarm(0)
                 signal.signal(signal.SIGALRM, self.command_timeout)
                 while True:
-                    data = recv_data(s)
+                    data = ConnectionUtils.recv_data(s)
                     if not data:
                         break
 
@@ -145,7 +145,7 @@ class ConnectionProcess(object):
                     if log_messages:
                         display.display("jsonrpc response: %s" % resp, log_only=True)
 
-                    send_data(s, to_bytes(resp))
+                    ConnectionUtils.send_data(s, to_bytes(resp))
 
                 s.close()
 

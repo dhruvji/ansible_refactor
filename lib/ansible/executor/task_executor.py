@@ -20,7 +20,7 @@ from ansible.executor.module_common import get_action_args_with_defaults
 from ansible.module_utils.parsing.convert_bool import boolean
 from ansible.module_utils.six import binary_type
 from ansible.module_utils.common.text.converters import to_text, to_native
-from ansible.module_utils.connection import write_to_stream
+from ansible.module_utils.connection import ConnectionUtils
 from ansible.module_utils.six import string_types
 from ansible.playbook.conditional import Conditional
 from ansible.playbook.task import Task
@@ -1229,8 +1229,8 @@ def start_connection(play_context, options, task_uuid):
         stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env,
     )
 
-    write_to_stream(p.stdin, options)
-    write_to_stream(p.stdin, play_context.serialize())
+    ConnectionUtils.write_to_stream(p.stdin, options)
+    ConnectionUtils.write_to_stream(p.stdin, play_context.serialize())
 
     (stdout, stderr) = p.communicate()
 

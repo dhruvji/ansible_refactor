@@ -42,54 +42,55 @@ from ansible.module_utils.common.json import AnsibleJSONEncoder
 from ansible.module_utils.six import iteritems
 
 
-def write_to_stream(stream, obj):
-    """Write a length+newline-prefixed pickled object to a stream."""
-    src = pickle.dumps(obj)
+class ConnectionUtils:
 
-    stream.write(b'%d\n' % len(src))
-    stream.write(src)
+    @staticmethod
+    def write_to_stream(stream, obj):
+        """Write a length+newline-prefixed pickled object to a stream."""
+        src = pickle.dumps(obj)
+        stream.write(b'%d\n' % len(src))
+        stream.write(src)
 
+    @staticmethod
+    def send_data(s, data):
+        packed_len = struct.pack('!Q', len(data))
+        return s.sendall(packed_len + data)
 
-def send_data(s, data):
-    packed_len = struct.pack('!Q', len(data))
-    return s.sendall(packed_len + data)
+    @staticmethod
+    def recv_data(s):
+        header_len = 8  # size of a packed unsigned long long
+        data = to_bytes("")
+        while len(data) < header_len:
+            d = s.recv(header_len - len(data))
+            if not d:
+                return None
+            data += d
+        data_len = struct.unpack('!Q', data[:header_len])[0]
+        data = data[header_len:]
+        while len(data) < data_len:
+            d = s.recv(data_len - len(data))
+            if not d:
+                return None
+            data += d
+        return data
 
+    @staticmethod
+    def exec_command(module, command):
+        connection = Connection(module._socket_path)
+        try:
+            out = connection.exec_command(command)
+        except ConnectionError as exc:
+            code = getattr(exc, 'code', 1)
+            message = getattr(exc, 'err', exc)
+            return code, '', to_text(message, errors='surrogate_then_replace')
+        return 0, out, ''
 
-def recv_data(s):
-    header_len = 8  # size of a packed unsigned long long
-    data = to_bytes("")
-    while len(data) < header_len:
-        d = s.recv(header_len - len(data))
-        if not d:
-            return None
-        data += d
-    data_len = struct.unpack('!Q', data[:header_len])[0]
-    data = data[header_len:]
-    while len(data) < data_len:
-        d = s.recv(data_len - len(data))
-        if not d:
-            return None
-        data += d
-    return data
-
-
-def exec_command(module, command):
-    connection = Connection(module._socket_path)
-    try:
-        out = connection.exec_command(command)
-    except ConnectionError as exc:
-        code = getattr(exc, 'code', 1)
-        message = getattr(exc, 'err', exc)
-        return code, '', to_text(message, errors='surrogate_then_replace')
-    return 0, out, ''
-
-
-def request_builder(method_, *args, **kwargs):
-    reqid = str(uuid.uuid4())
-    req = {'jsonrpc': '2.0', 'method': method_, 'id': reqid}
-    req['params'] = (args, kwargs)
-
-    return req
+    @staticmethod
+    def request_builder(method_, *args, **kwargs):
+        reqid = str(uuid.uuid4())
+        req = {'jsonrpc': '2.0', 'method': method_, 'id': reqid}
+        req['params'] = (args, kwargs)
+        return req
 
 
 class ConnectionError(Exception):
@@ -98,7 +99,6 @@ class ConnectionError(Exception):
         super(ConnectionError, self).__init__(message)
         for k, v in iteritems(kwargs):
             setattr(self, k, v)
-
 
 class Connection(object):
 
@@ -117,7 +117,7 @@ class Connection(object):
 
     def _exec_jsonrpc(self, name, *args, **kwargs):
 
-        req = request_builder(name, *args, **kwargs)
+        req = ConnectionUtils.request_builder(name, *args, **kwargs)
         reqid = req['id']
 
         if not os.path.exists(self.socket_path):
@@ -189,8 +189,8 @@ class Connection(object):
             sf = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
             sf.connect(self.socket_path)
 
-            send_data(sf, to_bytes(data))
-            response = recv_data(sf)
+            ConnectionUtils.send_data(sf, to_bytes(data))
+            response = ConnectionUtils.recv_data(sf)
 
         except socket.error as e:
             sf.close()
