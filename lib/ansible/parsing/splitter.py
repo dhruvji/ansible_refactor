@@ -22,7 +22,17 @@ import re
 
 from ansible.errors import AnsibleParserError
 from ansible.module_utils.common.text.converters import to_text
-from ansible.parsing.quoting import unquote
+
+
+def is_quoted(data):
+    return len(data) > 1 and data[0] == data[-1] and data[0] in ('"', "'") and data[-2] != '\\'
+
+
+def unquote(data):
+    ''' removes first and last quotes from a string, if the string starts and ends with the same quotes '''
+    if is_quoted(data):
+        return data[1:-1]
+    return data
 
 
 # Decode escapes adapted from rspeer's answer here:

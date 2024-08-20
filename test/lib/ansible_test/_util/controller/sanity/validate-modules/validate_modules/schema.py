@@ -16,7 +16,7 @@ from ansible.constants import DOCUMENTABLE_PLUGINS
 from ansible.module_utils.six import string_types
 from ansible.module_utils.common.collections import is_iterable
 from ansible.module_utils.parsing.convert_bool import boolean
-from ansible.parsing.quoting import unquote
+from ansible.parsing.splitter import unquote
 from ansible.utils.version import SemanticVersion
 from ansible.release import __version__
 

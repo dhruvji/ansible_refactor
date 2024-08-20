@@ -18,7 +18,7 @@
 
 from __future__ import annotations
 
-from ansible.parsing.quoting import unquote
+from ansible.parsing.splitter import unquote
 
 import pytest
 

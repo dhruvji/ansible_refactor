@@ -26,7 +26,7 @@ from ansible.errors import AnsibleError, AnsibleOptionsError, AnsibleRequiredOpt
 from ansible.module_utils.common.text.converters import to_native, to_text, to_bytes
 from ansible.module_utils.common.json import json_dump
 from ansible.module_utils.six import string_types
-from ansible.parsing.quoting import is_quoted
+from ansible.parsing.splitter import is_quoted
 from ansible.parsing.yaml.dumper import AnsibleDumper
 from ansible.utils.color import stringc
 from ansible.utils.display import Display
