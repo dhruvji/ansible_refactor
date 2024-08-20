@@ -258,7 +258,7 @@ class SystemctlScanService(BaseService):
     BAD_STATES = frozenset(['not-found', 'masked', 'failed'])
 
     def systemd_enabled(self):
-        return is_systemd_managed(self.module)
+        return is_systemd_managed(self.module, log=True)
 
     def _list_from_units(self, systemctl_path, services):
 

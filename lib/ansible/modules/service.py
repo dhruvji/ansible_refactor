@@ -484,7 +484,7 @@ class LinuxService(Service):
 
             # tools must be installed
             if location.get('systemctl', False):
-                return is_systemd_managed(self.module)
+                return is_systemd_managed(self.module, log=True)
             return False
 
         # Locate a tool to enable/disable a service
