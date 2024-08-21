@@ -23,7 +23,7 @@ from unittest.mock import Mock, patch
 
 from ansible.module_utils.facts import collector
 from ansible.module_utils.facts import ansible_collector
-from ansible.module_utils.facts import namespace
+from ansible.module_utils.facts import compat
 
 from ansible.module_utils.facts.other.facter import FacterFactCollector
 from ansible.module_utils.facts.other.ohai import OhaiFactCollector
@@ -115,7 +115,7 @@ def _collectors(module,
     return collectors
 
 
-ns = namespace.PrefixFactNamespace('ansible_facts', 'ansible_')
+ns = compat.PrefixFactNamespace('ansible_facts', 'ansible_')
 
 
 # FIXME: this is brute force, but hopefully enough to get some refactoring to make facts testable

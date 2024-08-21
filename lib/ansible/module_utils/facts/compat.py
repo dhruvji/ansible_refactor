@@ -28,9 +28,30 @@
 
 from __future__ import annotations
 
-from ansible.module_utils.facts.namespace import PrefixFactNamespace
 from ansible.module_utils.facts import default_collectors
 from ansible.module_utils.facts import ansible_collector
+
+class FactNamespace:
+    def __init__(self, namespace_name):
+        self.namespace_name = namespace_name
+
+    def transform(self, name):
+        '''Take a text name, and transforms it as needed (add a namespace prefix, etc)'''
+        return name
+
+    def _underscore(self, name):
+        return name.replace('-', '_')
+
+
+class PrefixFactNamespace(FactNamespace):
+    def __init__(self, namespace_name, prefix=None):
+        super(PrefixFactNamespace, self).__init__(namespace_name)
+        self.prefix = prefix
+
+    def transform(self, name):
+        new_name = self._underscore(name)
+        return '%s%s' % (self.prefix, new_name)
+
 
 
 def get_all_facts(module):

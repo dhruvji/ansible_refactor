@@ -42,7 +42,7 @@ class AnsibleFactCollector(collector.BaseFactCollector):
     '''A FactCollector that returns results under 'ansible_facts' top level key.
 
        If a namespace if provided, facts will be collected under that namespace.
-       For ex, a ansible.module_utils.facts.namespace.PrefixFactNamespace(prefix='ansible_')
+       For ex, a ansible.module_utils.facts.compat.PrefixFactNamespace(prefix='ansible_')
 
        Has a 'from_gather_subset() constructor that populates collectors based on a
        gather_subset specifier.'''
