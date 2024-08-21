@@ -33,7 +33,7 @@ VALID_UNITS = {
 }
 
 
-def lenient_lowercase(lst):
+def lowercase_of_list(lst):
     """Lowercase elements of a list.
 
     If an element is not a string, pass it through untouched.

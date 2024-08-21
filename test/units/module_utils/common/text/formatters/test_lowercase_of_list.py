@@ -8,7 +8,7 @@ from datetime import datetime
 
 import pytest
 
-from ansible.module_utils.common.text.formatters import lenient_lowercase
+from ansible.module_utils.common.text.formatters import lowercase_of_list
 
 
 INPUT_LIST = [
@@ -37,7 +37,7 @@ EXPECTED_LIST = [
     3.14159,
 ]
 
-result_list = lenient_lowercase(INPUT_LIST)
+result_list = lowercase_of_list(INPUT_LIST)
 
 
 @pytest.mark.parametrize(
@@ -55,13 +55,13 @@ result_list = lenient_lowercase(INPUT_LIST)
         (result_list[9], EXPECTED_LIST[9]),
     ]
 )
-def test_lenient_lowercase(input_value, expected_outcome):
-    """Test that lenient_lowercase() proper results."""
+def test_lowercase_of_list(input_value, expected_outcome):
+    """Test that lowercase_of_list() proper results."""
     assert input_value == expected_outcome
 
 
 @pytest.mark.parametrize('input_data', [1, False, 1.001, 1j, datetime.now(), ])
-def test_lenient_lowercase_illegal_data_type(input_data):
-    """Test passing objects of illegal types to lenient_lowercase()."""
+def test_llowercase_of_list_illegal_data_type(input_data):
+    """Test passing objects of illegal types to lowercase_of_list()."""
     with pytest.raises(TypeError, match='object is not iterable'):
-        lenient_lowercase(input_data)
+        lowercase_of_list(input_data)

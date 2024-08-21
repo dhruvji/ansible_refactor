@@ -80,7 +80,7 @@ from ansible.module_utils.common.text.converters import (
 from ansible.module_utils.common.arg_spec import ModuleArgumentSpecValidator
 
 from ansible.module_utils.common.text.formatters import (
-    lenient_lowercase,
+    lowercase_of_list,
     bytes_to_human,
     human_to_bytes,
     SIZE_RANGES,
