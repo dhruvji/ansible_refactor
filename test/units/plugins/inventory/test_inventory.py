@@ -27,7 +27,8 @@ import unittest
 from ansible.module_utils.common.text.converters import to_text
 from units.mock.path import mock_unfrackpath_noop
 
-from ansible.inventory.manager import InventoryManager, split_host_pattern
+from ansible.inventory.manager import InventoryManager
+from ansible.inventory.patterns import split_host_pattern
 
 from units.mock.loader import DictDataLoader
 
