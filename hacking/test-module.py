@@ -42,7 +42,7 @@ from ansible.release import __version__
 import ansible.utils.vars as utils_vars
 from ansible.parsing.dataloader import DataLoader
 from ansible.parsing.utils.jsonify import jsonify
-from ansible.parsing.splitter import parse_kv
+from ansible.parsing.splitter import parse_key_value
 from ansible.plugins.loader import init_plugin_loader
 from ansible.executor import module_common
 import ansible.constants as C
@@ -92,7 +92,7 @@ def write_argsfile(argstring, json=False):
     argspath = os.path.expanduser("~/.ansible_test_module_arguments")
     argsfile = open(argspath, 'w')
     if json:
-        args = parse_kv(argstring)
+        args = parse_key_value(argstring)
         argstring = jsonify(args)
     argsfile.write(argstring)
     argsfile.close()
@@ -144,7 +144,7 @@ def boilerplate_module(modfile, args, interpreters, check, destfile):
         args = ''
 
     if args:
-        parsed_args = parse_kv(args)
+        parsed_args = parse_key_value(args)
         complex_args = utils_vars.combine_vars(complex_args, parsed_args)
 
     task_vars = interpreters

@@ -21,7 +21,7 @@ import ansible.constants as C
 from ansible.errors import AnsibleParserError, AnsibleError, AnsibleAssertionError
 from ansible.module_utils.six import string_types
 from ansible.module_utils.common.text.converters import to_text
-from ansible.parsing.splitter import parse_kv, split_args
+from ansible.parsing.splitter import parse_key_value, split_args
 from ansible.plugins.loader import module_loader, action_loader
 from ansible.template import Templar
 from ansible.utils.fqcn import add_internal_fqcns
@@ -181,7 +181,7 @@ class ModuleArgsParser:
             if args and 'args' in args:
                 tmp_args = args.pop('args')
                 if isinstance(tmp_args, string_types):
-                    tmp_args = parse_kv(tmp_args)
+                    tmp_args = parse_key_value(tmp_args)
                 args.update(tmp_args)
 
         # only internal variables can start with an underscore, so
@@ -222,7 +222,7 @@ class ModuleArgsParser:
         elif isinstance(thing, string_types):
             # form is like: copy: src=a dest=b
             check_raw = action in FREEFORM_ACTIONS
-            args = parse_kv(thing, check_raw=check_raw)
+            args = parse_key_value(thing, check_raw=check_raw)
         elif thing is None:
             # this can happen with modules which take no params, like ping:
             args = None
@@ -253,14 +253,14 @@ class ModuleArgsParser:
                 action, module_args = self._split_module_string(thing['module'])
                 args = thing.copy()
                 check_raw = action in FREEFORM_ACTIONS
-                args.update(parse_kv(module_args, check_raw=check_raw))
+                args.update(parse_key_value(module_args, check_raw=check_raw))
                 del args['module']
 
         elif isinstance(thing, string_types):
             # form is like:  action: copy src=a dest=b
             (action, args) = self._split_module_string(thing)
             check_raw = action in FREEFORM_ACTIONS
-            args = parse_kv(args, check_raw=check_raw)
+            args = parse_key_value(args, check_raw=check_raw)
 
         else:
             # need a dict or a string, so giving up

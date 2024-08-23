@@ -44,7 +44,7 @@ def _decode_escapes(s):
     return _ESCAPE_SEQUENCE_RE.sub(decode_match, s)
 
 
-def parse_kv(args, check_raw=False):
+def parse_key_value(args, check_raw=False):
     '''
     Convert a string of key/value items to a dict. If any free-form params
     are found and the check_raw option is set to True, they will be added

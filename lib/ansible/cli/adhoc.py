@@ -14,7 +14,7 @@ from ansible.cli.arguments import option_helpers as opt_help
 from ansible.errors import AnsibleError, AnsibleOptionsError, AnsibleParserError
 from ansible.executor.task_queue_manager import TaskQueueManager
 from ansible.module_utils.common.text.converters import to_text
-from ansible.parsing.splitter import parse_kv
+from ansible.parsing.splitter import parse_key_value
 from ansible.parsing.utils.yaml import from_yaml
 from ansible.playbook import Playbook
 from ansible.playbook.play import Play
@@ -81,7 +81,7 @@ class AdHocCLI(CLI):
                 pass
 
         if not module_args:
-            module_args = parse_kv(module_args_raw, check_raw=check_raw)
+            module_args = parse_key_value(module_args_raw, check_raw=check_raw)
 
         mytask = {'action': {'module': context.CLIARGS['module_name'], 'args': module_args},
                   'timeout': context.CLIARGS['task_timeout']}

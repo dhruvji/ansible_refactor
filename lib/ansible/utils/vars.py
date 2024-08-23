@@ -29,7 +29,7 @@ from ansible import context
 from ansible.errors import AnsibleError, AnsibleOptionsError
 from ansible.module_utils.six import string_types
 from ansible.module_utils.common.text.converters import to_native, to_text
-from ansible.parsing.splitter import parse_kv
+from ansible.parsing.splitter import parse_key_value
 
 
 ADDITIONAL_PY2_KEYWORDS = frozenset(("True", "False", "None"))
@@ -200,7 +200,7 @@ def load_extra_vars(loader):
                 data = loader.load(extra_vars_opt)
             else:
                 # Arguments as Key-value
-                data = parse_kv(extra_vars_opt)
+                data = parse_key_value(extra_vars_opt)
 
             if isinstance(data, MutableMapping):
                 extra_vars = combine_vars(extra_vars, data)

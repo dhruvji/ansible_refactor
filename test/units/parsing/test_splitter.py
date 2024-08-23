@@ -18,7 +18,7 @@
 
 from __future__ import annotations
 
-from ansible.parsing.splitter import split_args, parse_kv
+from ansible.parsing.splitter import split_args, parse_key_value
 from ansible.errors import AnsibleParserError
 
 import pytest
@@ -155,12 +155,12 @@ def test_split_args(args, expected):
 
 @pytest.mark.parametrize("args, expected", PARSE_KV, ids=[str(arg[0]) for arg in PARSE_KV])
 def test_parse_kv(args, expected):
-    assert parse_kv(args) == expected
+    assert parse_key_value(args) == expected
 
 
 @pytest.mark.parametrize("args, expected", PARSE_KV_CHECK_RAW, ids=[str(arg[0]) for arg in PARSE_KV_CHECK_RAW])
 def test_parse_kv_check_raw(args, expected):
-    assert parse_kv(args, check_raw=True) == expected
+    assert parse_key_value(args, check_raw=True) == expected
 
 
 @pytest.mark.parametrize("args", PARSER_ERROR)
@@ -172,4 +172,4 @@ def test_split_args_error(args):
 @pytest.mark.parametrize("args", PARSER_ERROR)
 def test_parse_kv_error(args):
     with pytest.raises(AnsibleParserError):
-        parse_kv(args)
+        parse_key_value(args)

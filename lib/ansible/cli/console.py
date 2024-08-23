@@ -23,7 +23,7 @@ from ansible.cli.arguments import option_helpers as opt_help
 from ansible.executor.task_queue_manager import TaskQueueManager
 from ansible.module_utils.common.text.converters import to_native, to_text
 from ansible.module_utils.parsing.convert_bool import boolean
-from ansible.parsing.splitter import parse_kv
+from ansible.parsing.splitter import parse_key_value
 from ansible.playbook.play import Play
 from ansible.plugins.list import list_plugins
 from ansible.plugins.loader import module_loader, fragment_loader
@@ -189,7 +189,7 @@ class ConsoleCLI(CLI, cmd.Cmd):
         result = None
         try:
             check_raw = module in C._ACTION_ALLOWS_RAW_ARGS
-            task = dict(action=dict(module=module, args=parse_kv(module_args, check_raw=check_raw)), timeout=self.task_timeout)
+            task = dict(action=dict(module=module, args=parse_key_value(module_args, check_raw=check_raw)), timeout=self.task_timeout)
             play_ds = dict(
                 name="Ansible Shell",
                 hosts=self.cwd,

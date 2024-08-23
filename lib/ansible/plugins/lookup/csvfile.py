@@ -108,7 +108,7 @@ import csv
 from collections.abc import MutableSequence
 
 from ansible.errors import AnsibleError, AnsibleAssertionError
-from ansible.parsing.splitter import parse_kv
+from ansible.parsing.splitter import parse_key_value
 from ansible.plugins.lookup import LookupBase
 from ansible.module_utils.six import PY2
 from ansible.module_utils.common.text.converters import to_bytes, to_native, to_text
@@ -183,7 +183,7 @@ class LookupModule(LookupBase):
             raise AnsibleError('Search key is required but was not found')
 
         for term in terms:
-            kv = parse_kv(term)
+            kv = parse_key_value(term)
 
             if '_raw_params' not in kv:
                 raise AnsibleError('Search key is required but was not found')

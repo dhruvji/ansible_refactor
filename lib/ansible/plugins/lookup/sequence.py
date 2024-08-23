@@ -80,7 +80,7 @@ RETURN = """
 from re import compile as re_compile, IGNORECASE
 
 from ansible.errors import AnsibleError
-from ansible.parsing.splitter import parse_kv
+from ansible.parsing.splitter import parse_key_value
 from ansible.plugins.lookup import LookupBase
 
 
@@ -216,7 +216,7 @@ class LookupModule(LookupBase):
                 self.set_options(direct=kwargs)
                 try:
                     if not self.parse_simple_args(term):
-                        self.parse_kv_args(parse_kv(term))
+                        self.parse_kv_args(parse_key_value(term))
                 except AnsibleError:
                     raise
                 except Exception as e:

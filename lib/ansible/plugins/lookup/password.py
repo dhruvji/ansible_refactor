@@ -134,7 +134,7 @@ import hashlib
 from ansible.errors import AnsibleError, AnsibleAssertionError
 from ansible.module_utils.common.text.converters import to_bytes, to_native, to_text
 from ansible.module_utils.six import string_types
-from ansible.parsing.splitter import parse_kv
+from ansible.parsing.splitter import parse_key_value
 from ansible.plugins.lookup import LookupBase
 from ansible.utils.encrypt import BaseHash, do_encrypt, random_password, random_salt
 from ansible.utils.path import makedirs_safe
@@ -312,7 +312,7 @@ class LookupModule(LookupBase):
             params = dict()
         else:
             relpath = first_split[0]
-            params = parse_kv(first_split[1])
+            params = parse_key_value(first_split[1])
             if '_raw_params' in params:
                 # Spaces in the path?
                 relpath = u' '.join((relpath, params['_raw_params']))
