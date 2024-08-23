@@ -23,7 +23,7 @@ import pytest
 
 from ansible.errors import AnsibleParserError
 from ansible.plugins.inventory.constructed import InventoryModule
-from ansible.inventory.data import InventoryData
+from ansible.inventory.inventory_data import InventoryData
 from ansible.template import Templar
 
 
